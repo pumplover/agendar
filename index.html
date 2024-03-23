@@ -2,54 +2,100 @@
 <html>
 <head>
     <style>
-        /* Seus estilos aqui */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        form input,
+        form select {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form input[type="date"],
+        form input[type="time"] {
+            width: 45%;
+        }
+
+        form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Agende uma data e hora:</h2>
-        <div class="calendar">
-            <input type="datetime-local" id="selectedDateTime" name="selectedDateTime" min="<?php echo date('Y-m-d\TH:i'); ?>" required>
-        </div>
-        <p>Por favor, preencha o formulário abaixo:</p>
-        <form id="personalInfoForm" onsubmit="submitForm(event)">
-            <label for="name">Nome:</label><br>
-            <input type="text" id="name" name="name" required><br>
-            <label for="dob">Data de Nascimento:</label><br>
-            <input type="date" id="dob" name="dob" max="<?php echo date('Y-m-d'); ?>" required><br>
-            <label for="gender">Sexo:</label><br>
-            <select id="gender" name="gender" required>
-                <option value="">Selecione</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-                <option value="outro">Outro</option>
-            </select><br><br>
+        <form id="appointmentForm">
+            <div>
+                <label for="selectedDate">Data:</label>
+                <input type="date" id="selectedDate" name="selectedDate" min="<?php echo date('Y-m-d'); ?>" max="2070-12-31" required>
+            </div>
+            <div>
+                <label for="selectedTime">Hora:</label>
+                <input type="time" id="selectedTime" name="selectedTime" required>
+            </div>
+            <div>
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="dob">Data de Nascimento:</label>
+                <input type="date" id="dob" name="dob" max="<?php echo date('Y-m-d', strtotime('-18 years')); ?>" required>
+            </div>
+            <div>
+                <label for="gender">Sexo:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Selecione</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                </select>
+            </div>
             <input type="submit" value="Confirmar">
         </form>
     </div>
 
     <script>
-        function submitForm(event) {
-            event.preventDefault(); // Evita o envio padrão do formulário
-
-            var selectedDateTime = document.getElementById("selectedDateTime").value;
-            var name = document.getElementById("name").value;
-            var dob = document.getElementById("dob").value;
-            var gender = document.getElementById("gender").value;
-
-            var formData = new FormData();
-            formData.append("selectedDateTime", selectedDateTime);
-            formData.append("name", name);
-            formData.append("dob", dob);
-            formData.append("gender", gender);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://pumplover.github.io/confirmacao-agendamento/"); // Substitua pela URL do segundo site
-            xhr.send(formData);
-
-            // Redireciona para outra página após o envio
-            window.location.href = "pagina_confirmacao.html";
-        }
+        // Impedir a seleção de datas futuras além de 2070
+        var maxDate = new Date();
+        maxDate.setFullYear(maxDate.getFullYear() + 56); // 56 anos no futuro a partir de hoje
+        var formattedMaxDate = maxDate.toISOString().split('T')[0];
+        document.getElementById('selectedDate').setAttribute('max', formattedMaxDate);
     </script>
 </body>
 </html>
