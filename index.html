@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Seus estilos aqui */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Agende uma data e hora:</h2>
+        <div class="calendar">
+            <input type="datetime-local" id="selectedDateTime" name="selectedDateTime" min="<?php echo date('Y-m-d\TH:i'); ?>" required>
+        </div>
+        <p>Por favor, preencha o formulário abaixo:</p>
+        <form id="personalInfoForm" onsubmit="submitForm(event)">
+            <label for="name">Nome:</label><br>
+            <input type="text" id="name" name="name" required><br>
+            <label for="dob">Data de Nascimento:</label><br>
+            <input type="date" id="dob" name="dob" max="<?php echo date('Y-m-d'); ?>" required><br>
+            <label for="gender">Sexo:</label><br>
+            <select id="gender" name="gender" required>
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="outro">Outro</option>
+            </select><br><br>
+            <input type="submit" value="Confirmar">
+        </form>
+    </div>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault(); // Evita o envio padrão do formulário
+
+            var selectedDateTime = document.getElementById("selectedDateTime").value;
+            var name = document.getElementById("name").value;
+            var dob = document.getElementById("dob").value;
+            var gender = document.getElementById("gender").value;
+
+            var formData = new FormData();
+            formData.append("selectedDateTime", selectedDateTime);
+            formData.append("name", name);
+            formData.append("dob", dob);
+            formData.append("gender", gender);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://pumplover.github.io/confirmacao-agendamento/"); // Substitua pela URL do segundo site
+            xhr.send(formData);
+
+            // Redireciona para outra página após o envio
+            window.location.href = "pagina_confirmacao.html";
+        }
+    </script>
+</body>
+</html>
