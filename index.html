@@ -15,7 +15,7 @@
 
         .container {
             text-align: center;
-            background-color: #fff;
+            background-color: #f9f9f9;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -38,7 +38,8 @@
         }
 
         form input[type="date"],
-        form input[type="time"] {
+        form input[type="time"],
+        form input[type="submit"] {
             width: 45%;
         }
 
@@ -89,13 +90,5 @@
             <input type="submit" value="Confirmar">
         </form>
     </div>
-
-    <script>
-        // Impedir a seleção de datas futuras além de 2070
-        var maxDate = new Date();
-        maxDate.setFullYear(maxDate.getFullYear() + 56); // 56 anos no futuro a partir de hoje
-        var formattedMaxDate = maxDate.toISOString().split('T')[0];
-        document.getElementById('selectedDate').setAttribute('max', formattedMaxDate);
-    </script>
 </body>
 </html>
